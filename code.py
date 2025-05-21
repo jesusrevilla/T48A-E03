@@ -11,7 +11,6 @@ from sklearn.metrics import accuracy_score
 def cargar_datos():
     pass
     
-
 # Función para dividir y escalar los datos, test_size=0.2
 def dividir_y_escalar_datos(digits):
     pass
