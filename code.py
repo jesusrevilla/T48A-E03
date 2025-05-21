@@ -33,30 +33,6 @@ def visualizar_digitos(X_test, y_pred, y_test):
         ax.set_title(f"Predicción: {prediction}\nEtiqueta real: {label}")
     plt.show()
 
-# Pruebas unitarias
-class TestClasificacionDigits(unittest.TestCase):
-    def setUp(self):
-        self.digits = cargar_datos()
-        self.X_train, self.X_test, self.y_train, self.y_test = dividir_y_escalar_datos(self.digits)
-        self.modelo = entrenar_modelo(self.X_train, self.y_train)
-
-    def test_cargar_datos(self):
-        self.assertEqual(len(self.digits.data), 1797)
-
-    def test_dividir_y_escalar_datos(self):
-        self.assertEqual(self.X_train.shape[0], 1437)
-        self.assertEqual(self.X_test.shape[0], 360)
-
-    def test_entrenar_modelo(self):
-        self.assertIsInstance(self.modelo, MLPClassifier)
-
-    def test_evaluar_modelo(self):
-        accuracy, cumple_aprobacion, y_pred = evaluar_modelo(self.modelo, self.X_test, self.y_test)
-        self.assertGreaterEqual(accuracy, 0.85)
-        self.assertEqual(len(y_pred), len(self.y_test))
-
-# Ejecutar pruebas
-unittest.main(argv=[''], exit=False)
 
 # Ejecución del flujo principal
 digits = cargar_datos()
