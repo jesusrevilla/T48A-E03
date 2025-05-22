@@ -15,14 +15,17 @@ def cargar_datos():
     
 # Función para dividir y escalar los datos, test_size=0.2
 def dividir_y_escalar_datos(digits):
+  X = digits.data
+  y = digits.target
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
   scaler = StandardScaler()
-  X_scaled = scaler.fit_transform(digits.data)
-  X_train, X_test, y_train, y_test = train_test_split(X_scaled, digits.target, test_size=0.2, random_state=42)
-  return X_train, y_train, X_test, y_test
+  X_train = scaler.fit_transform(X_train)
+  X_test = scaler.transform(X_test)
+  return X_train, X_test, y_train, y_test
 
 # Función para entrenar el modelo
 def entrenar_modelo(X_train, y_train):
-  modelo = MLPClassifier(hidden_layer_sizes=(100, 50), max_iter=500, random_state=42)
+  modelo = MLPClassifier(hidden_layer_sizes=(100,), max_iter=2000, random_state=42)
   modelo.fit(X_train, y_train)
   return modelo
 
