@@ -9,19 +9,44 @@ from sklearn.metrics import accuracy_score
 
 # Función para cargar el dataset
 def cargar_datos():
-    pass
+    digits = load_digits()
+    return digits
+
 
 # Función para dividir y escalar los datos, test_size=0.2
+#División del dataset en entrenamiento (80%) y prueba (20%) con train_test_split.
 def dividir_y_escalar_datos(digits):
-    pass
+    X = digits.data
+    y = digits.target
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    # Add return statement to return the split data
+    return X_train, X_test, y_train, y_test
+
 
 # Función para entrenar el modelo
+#Se entrena un MLPClassifier con:
+#100 neuronas en la capa oculta.
+#Hasta 2000 iteraciones (max_iter=2000).
+#Semilla aleatoria (random_state=42) para reproducibilidad.
 def entrenar_modelo(X_train, y_train):
-    pass
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    mlp = MLPClassifier(hidden_layer_sizes=(100,), max_iter=2000, random_state=42)
+    mlp.fit(X_train_scaled, y_train)
+    return mlp
+
 
 # Función para evaluar el modelo
 def evaluar_modelo(modelo, X_test, y_test, limite_aprobacion=0.85):
-    pass
+    scaler = StandardScaler()
+    X_test_scaled = scaler.fit_transform(X_test)
+    y_pred = modelo.predict(X_test_scaled)
+    accuracy = accuracy_score(y_test, y_pred)
+    # Add a condition to check if accuracy meets the threshold
+    cumple_aprobacion = accuracy >= limite_aprobacion
+    # Return the accuracy, the approval status, and the predictions
+    return accuracy, cumple_aprobacion, y_pred
+
 
 # Función para visualizar tres dígitos
 def visualizar_digitos(X_test, y_pred, y_test):
