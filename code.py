@@ -9,19 +9,40 @@ from sklearn.metrics import accuracy_score
 
 # Función para cargar el dataset
 def cargar_datos():
-    pass
+    digits = load_digits()
+    return digits
 
 # Función para dividir y escalar los datos, test_size=0.2
 def dividir_y_escalar_datos(digits):
-    pass
+    # Separa datos en entrenamiento y prueba, con test_size=0.2 (20%)
+    X_train, X_test, y_train, y_test = train_test_split(digits.data, digits.target, test_size=0.2, random_state=42)
+    
+    # Escalar características para mejor desempeño del modelo
+    scaler = StandardScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
+    
+    return X_train, X_test, y_train, y_test
 
 # Función para entrenar el modelo
 def entrenar_modelo(X_train, y_train):
-    pass
+    # Entrena un perceptrón multicapa con parámetros básicos
+    modelo = MLPClassifier(hidden_layer_sizes=(50,), max_iter=500, random_state=42)
+    modelo.fit(X_train, y_train)
+    return modelo
 
 # Función para evaluar el modelo
 def evaluar_modelo(modelo, X_test, y_test, limite_aprobacion=0.85):
-    pass
+    # Predice sobre los datos de prueba
+    y_pred = modelo.predict(X_test)
+    
+    # Calcula precisión
+    accuracy = accuracy_score(y_test, y_pred)
+    
+    # Verifica si cumple el límite de aprobación
+    cumple_aprobacion = accuracy >= limite_aprobacion
+    
+    return accuracy, cumple_aprobacion, y_pred
 
 # Función para visualizar tres dígitos
 def visualizar_digitos(X_test, y_pred, y_test):
