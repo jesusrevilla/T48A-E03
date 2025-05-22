@@ -26,11 +26,23 @@ def dividir_y_escalar_datos(digits):
 
 # Función para entrenar el modelo
 def entrenar_modelo(X_train, y_train):
-    pass
+    # Entrena un perceptrón multicapa con parámetros básicos
+    modelo = MLPClassifier(hidden_layer_sizes=(50,), max_iter=500, random_state=42)
+    modelo.fit(X_train, y_train)
+    return modelo
 
 # Función para evaluar el modelo
 def evaluar_modelo(modelo, X_test, y_test, limite_aprobacion=0.85):
-    pass
+    # Predice sobre los datos de prueba
+    y_pred = modelo.predict(X_test)
+    
+    # Calcula precisión
+    accuracy = accuracy_score(y_test, y_pred)
+    
+    # Verifica si cumple el límite de aprobación
+    cumple_aprobacion = accuracy >= limite_aprobacion
+    
+    return accuracy, cumple_aprobacion, y_pred
 
 # Función para visualizar tres dígitos
 def visualizar_digitos(X_test, y_pred, y_test):
