@@ -7,23 +7,44 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score
 
+
 # Función para cargar el dataset
 def cargar_datos():
-    pass
+
+    digits = load_digits() # 1. carga del dataset
+
+    return digits
 
 # Función para dividir y escalar los datos, test_size=0.2
 def dividir_y_escalar_datos(digits):
-    pass
+
+    X = digits.data
+    y = digits.target
+
+    scaler = StandardScaler()
+    X = scaler.fit_transform(X) # 2.2 escalado de caracteristicas
+
+    return train_test_split(X, y, test_size=0.2, random_state=42) # 2.1 entrenamiento 80%, prueba 20%
 
 # Función para entrenar el modelo
 def entrenar_modelo(X_train, y_train):
-    pass
+
+    mlp = MLPClassifier(hidden_layer_sizes=(100,), max_iter=2000, random_state=42) # 3.1 100 neuronas, 3.2 hasta 2000 iteraciones y 3.3 semilla 42
+    mlp.fit(X_train, y_train)
+
+    return mlp
 
 # Función para evaluar el modelo
 def evaluar_modelo(modelo, X_test, y_test, limite_aprobacion=0.85):
-    pass
 
-# Función para visualizar tres dígitos
+    y_pred = modelo.predict(X_test) #prediccion y guardado de resultados
+    accuracy = accuracy_score(y_test, y_pred) # 4.1 funcion para sacar la taza de precision del modelo
+
+    cumple_aprobacion = accuracy >= limite_aprobacion # 4.2 si la precision es mayor o igual que el limite, entonces devuelve un verdadero
+
+    return accuracy, cumple_aprobacion, y_pred
+
+# Función para visualizar tres dígitos 5.
 def visualizar_digitos(X_test, y_pred, y_test):
     fig, axes = plt.subplots(1, 3, figsize=(10, 3))
     for ax, image, prediction, label in zip(axes, X_test[:3], y_pred[:3], y_test[:3]):
@@ -34,7 +55,7 @@ def visualizar_digitos(X_test, y_pred, y_test):
     plt.show()
 
 
-# Ejecución del flujo principal
+# Ejecución del flujo principal 6.
 digits = cargar_datos()
 X_train, X_test, y_train, y_test = dividir_y_escalar_datos(digits)
 modelo = entrenar_modelo(X_train, y_train)
