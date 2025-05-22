@@ -14,7 +14,15 @@ def cargar_datos():
 
 # Función para dividir y escalar los datos, test_size=0.2
 def dividir_y_escalar_datos(digits):
-    pass
+    # Separa datos en entrenamiento y prueba, con test_size=0.2 (20%)
+    X_train, X_test, y_train, y_test = train_test_split(digits.data, digits.target, test_size=0.2, random_state=42)
+    
+    # Escalar características para mejor desempeño del modelo
+    scaler = StandardScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
+    
+    return X_train, X_test, y_train, y_test
 
 # Función para entrenar el modelo
 def entrenar_modelo(X_train, y_train):
